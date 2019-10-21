@@ -1,856 +1,101 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": 1,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import pandas as pd\n",
-    "import os\n",
-    "import numpy as np"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 2,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "budget_data = \"../../Instructions/PyBank/Resources/budget_data.csv\"\n",
-    "budget_data_df = pd.read_csv(budget_data, encoding=\"ISO-8859-1\")\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 3,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>Date</th>\n",
-       "      <th>Profit/Losses</th>\n",
-       "      <th>in Dollars</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>Jan-2010</td>\n",
-       "      <td>867884</td>\n",
-       "      <td>$867,884.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>Feb-2010</td>\n",
-       "      <td>984655</td>\n",
-       "      <td>$984,655.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>2</th>\n",
-       "      <td>Mar-2010</td>\n",
-       "      <td>322013</td>\n",
-       "      <td>$322,013.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>3</th>\n",
-       "      <td>Apr-2010</td>\n",
-       "      <td>-69417</td>\n",
-       "      <td>$-69,417.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>4</th>\n",
-       "      <td>May-2010</td>\n",
-       "      <td>310503</td>\n",
-       "      <td>$310,503.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>5</th>\n",
-       "      <td>Jun-2010</td>\n",
-       "      <td>522857</td>\n",
-       "      <td>$522,857.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>6</th>\n",
-       "      <td>Jul-2010</td>\n",
-       "      <td>1033096</td>\n",
-       "      <td>$1,033,096.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>7</th>\n",
-       "      <td>Aug-2010</td>\n",
-       "      <td>604885</td>\n",
-       "      <td>$604,885.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>8</th>\n",
-       "      <td>Sep-2010</td>\n",
-       "      <td>-216386</td>\n",
-       "      <td>$-216,386.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>9</th>\n",
-       "      <td>Oct-2010</td>\n",
-       "      <td>477532</td>\n",
-       "      <td>$477,532.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>10</th>\n",
-       "      <td>Nov-2010</td>\n",
-       "      <td>893810</td>\n",
-       "      <td>$893,810.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>11</th>\n",
-       "      <td>Dec-2010</td>\n",
-       "      <td>-80353</td>\n",
-       "      <td>$-80,353.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>12</th>\n",
-       "      <td>Jan-2011</td>\n",
-       "      <td>779806</td>\n",
-       "      <td>$779,806.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>13</th>\n",
-       "      <td>Feb-2011</td>\n",
-       "      <td>-335203</td>\n",
-       "      <td>$-335,203.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>14</th>\n",
-       "      <td>Mar-2011</td>\n",
-       "      <td>697845</td>\n",
-       "      <td>$697,845.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>15</th>\n",
-       "      <td>Apr-2011</td>\n",
-       "      <td>793163</td>\n",
-       "      <td>$793,163.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>16</th>\n",
-       "      <td>May-2011</td>\n",
-       "      <td>485070</td>\n",
-       "      <td>$485,070.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>17</th>\n",
-       "      <td>Jun-2011</td>\n",
-       "      <td>584122</td>\n",
-       "      <td>$584,122.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>18</th>\n",
-       "      <td>Jul-2011</td>\n",
-       "      <td>62729</td>\n",
-       "      <td>$62,729.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>19</th>\n",
-       "      <td>Aug-2011</td>\n",
-       "      <td>668179</td>\n",
-       "      <td>$668,179.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>20</th>\n",
-       "      <td>Sep-2011</td>\n",
-       "      <td>899906</td>\n",
-       "      <td>$899,906.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>21</th>\n",
-       "      <td>Oct-2011</td>\n",
-       "      <td>834719</td>\n",
-       "      <td>$834,719.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>22</th>\n",
-       "      <td>Nov-2011</td>\n",
-       "      <td>132003</td>\n",
-       "      <td>$132,003.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>23</th>\n",
-       "      <td>Dec-2011</td>\n",
-       "      <td>309978</td>\n",
-       "      <td>$309,978.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>24</th>\n",
-       "      <td>Jan-2012</td>\n",
-       "      <td>-755566</td>\n",
-       "      <td>$-755,566.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>25</th>\n",
-       "      <td>Feb-2012</td>\n",
-       "      <td>1170593</td>\n",
-       "      <td>$1,170,593.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>26</th>\n",
-       "      <td>Mar-2012</td>\n",
-       "      <td>252788</td>\n",
-       "      <td>$252,788.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>27</th>\n",
-       "      <td>Apr-2012</td>\n",
-       "      <td>1151518</td>\n",
-       "      <td>$1,151,518.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>28</th>\n",
-       "      <td>May-2012</td>\n",
-       "      <td>817256</td>\n",
-       "      <td>$817,256.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>29</th>\n",
-       "      <td>Jun-2012</td>\n",
-       "      <td>570757</td>\n",
-       "      <td>$570,757.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>...</th>\n",
-       "      <td>...</td>\n",
-       "      <td>...</td>\n",
-       "      <td>...</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>56</th>\n",
-       "      <td>Sep-2014</td>\n",
-       "      <td>1166643</td>\n",
-       "      <td>$1,166,643.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>57</th>\n",
-       "      <td>Oct-2014</td>\n",
-       "      <td>947333</td>\n",
-       "      <td>$947,333.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>58</th>\n",
-       "      <td>Nov-2014</td>\n",
-       "      <td>578668</td>\n",
-       "      <td>$578,668.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>59</th>\n",
-       "      <td>Dec-2014</td>\n",
-       "      <td>988505</td>\n",
-       "      <td>$988,505.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>60</th>\n",
-       "      <td>Jan-2015</td>\n",
-       "      <td>1139715</td>\n",
-       "      <td>$1,139,715.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>61</th>\n",
-       "      <td>Feb-2015</td>\n",
-       "      <td>1029471</td>\n",
-       "      <td>$1,029,471.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>62</th>\n",
-       "      <td>Mar-2015</td>\n",
-       "      <td>687533</td>\n",
-       "      <td>$687,533.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>63</th>\n",
-       "      <td>Apr-2015</td>\n",
-       "      <td>-524626</td>\n",
-       "      <td>$-524,626.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>64</th>\n",
-       "      <td>May-2015</td>\n",
-       "      <td>158620</td>\n",
-       "      <td>$158,620.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>65</th>\n",
-       "      <td>Jun-2015</td>\n",
-       "      <td>87795</td>\n",
-       "      <td>$87,795.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>66</th>\n",
-       "      <td>Jul-2015</td>\n",
-       "      <td>423389</td>\n",
-       "      <td>$423,389.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>67</th>\n",
-       "      <td>Aug-2015</td>\n",
-       "      <td>840723</td>\n",
-       "      <td>$840,723.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>68</th>\n",
-       "      <td>Sep-2015</td>\n",
-       "      <td>568529</td>\n",
-       "      <td>$568,529.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>69</th>\n",
-       "      <td>Oct-2015</td>\n",
-       "      <td>332067</td>\n",
-       "      <td>$332,067.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>70</th>\n",
-       "      <td>Nov-2015</td>\n",
-       "      <td>989499</td>\n",
-       "      <td>$989,499.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>71</th>\n",
-       "      <td>Dec-2015</td>\n",
-       "      <td>778237</td>\n",
-       "      <td>$778,237.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>72</th>\n",
-       "      <td>Jan-2016</td>\n",
-       "      <td>650000</td>\n",
-       "      <td>$650,000.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>73</th>\n",
-       "      <td>Feb-2016</td>\n",
-       "      <td>-1100387</td>\n",
-       "      <td>$-1,100,387.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>74</th>\n",
-       "      <td>Mar-2016</td>\n",
-       "      <td>-174946</td>\n",
-       "      <td>$-174,946.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>75</th>\n",
-       "      <td>Apr-2016</td>\n",
-       "      <td>757143</td>\n",
-       "      <td>$757,143.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>76</th>\n",
-       "      <td>May-2016</td>\n",
-       "      <td>445709</td>\n",
-       "      <td>$445,709.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>77</th>\n",
-       "      <td>Jun-2016</td>\n",
-       "      <td>712961</td>\n",
-       "      <td>$712,961.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>78</th>\n",
-       "      <td>Jul-2016</td>\n",
-       "      <td>-1163797</td>\n",
-       "      <td>$-1,163,797.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>79</th>\n",
-       "      <td>Aug-2016</td>\n",
-       "      <td>569899</td>\n",
-       "      <td>$569,899.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>80</th>\n",
-       "      <td>Sep-2016</td>\n",
-       "      <td>768450</td>\n",
-       "      <td>$768,450.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>81</th>\n",
-       "      <td>Oct-2016</td>\n",
-       "      <td>102685</td>\n",
-       "      <td>$102,685.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>82</th>\n",
-       "      <td>Nov-2016</td>\n",
-       "      <td>795914</td>\n",
-       "      <td>$795,914.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>83</th>\n",
-       "      <td>Dec-2016</td>\n",
-       "      <td>60988</td>\n",
-       "      <td>$60,988.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>84</th>\n",
-       "      <td>Jan-2017</td>\n",
-       "      <td>138230</td>\n",
-       "      <td>$138,230.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>85</th>\n",
-       "      <td>Feb-2017</td>\n",
-       "      <td>671099</td>\n",
-       "      <td>$671,099.00</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "<p>86 rows × 3 columns</p>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "        Date  Profit/Losses      in Dollars\n",
-       "0   Jan-2010         867884     $867,884.00\n",
-       "1   Feb-2010         984655     $984,655.00\n",
-       "2   Mar-2010         322013     $322,013.00\n",
-       "3   Apr-2010         -69417     $-69,417.00\n",
-       "4   May-2010         310503     $310,503.00\n",
-       "5   Jun-2010         522857     $522,857.00\n",
-       "6   Jul-2010        1033096   $1,033,096.00\n",
-       "7   Aug-2010         604885     $604,885.00\n",
-       "8   Sep-2010        -216386    $-216,386.00\n",
-       "9   Oct-2010         477532     $477,532.00\n",
-       "10  Nov-2010         893810     $893,810.00\n",
-       "11  Dec-2010         -80353     $-80,353.00\n",
-       "12  Jan-2011         779806     $779,806.00\n",
-       "13  Feb-2011        -335203    $-335,203.00\n",
-       "14  Mar-2011         697845     $697,845.00\n",
-       "15  Apr-2011         793163     $793,163.00\n",
-       "16  May-2011         485070     $485,070.00\n",
-       "17  Jun-2011         584122     $584,122.00\n",
-       "18  Jul-2011          62729      $62,729.00\n",
-       "19  Aug-2011         668179     $668,179.00\n",
-       "20  Sep-2011         899906     $899,906.00\n",
-       "21  Oct-2011         834719     $834,719.00\n",
-       "22  Nov-2011         132003     $132,003.00\n",
-       "23  Dec-2011         309978     $309,978.00\n",
-       "24  Jan-2012        -755566    $-755,566.00\n",
-       "25  Feb-2012        1170593   $1,170,593.00\n",
-       "26  Mar-2012         252788     $252,788.00\n",
-       "27  Apr-2012        1151518   $1,151,518.00\n",
-       "28  May-2012         817256     $817,256.00\n",
-       "29  Jun-2012         570757     $570,757.00\n",
-       "..       ...            ...             ...\n",
-       "56  Sep-2014        1166643   $1,166,643.00\n",
-       "57  Oct-2014         947333     $947,333.00\n",
-       "58  Nov-2014         578668     $578,668.00\n",
-       "59  Dec-2014         988505     $988,505.00\n",
-       "60  Jan-2015        1139715   $1,139,715.00\n",
-       "61  Feb-2015        1029471   $1,029,471.00\n",
-       "62  Mar-2015         687533     $687,533.00\n",
-       "63  Apr-2015        -524626    $-524,626.00\n",
-       "64  May-2015         158620     $158,620.00\n",
-       "65  Jun-2015          87795      $87,795.00\n",
-       "66  Jul-2015         423389     $423,389.00\n",
-       "67  Aug-2015         840723     $840,723.00\n",
-       "68  Sep-2015         568529     $568,529.00\n",
-       "69  Oct-2015         332067     $332,067.00\n",
-       "70  Nov-2015         989499     $989,499.00\n",
-       "71  Dec-2015         778237     $778,237.00\n",
-       "72  Jan-2016         650000     $650,000.00\n",
-       "73  Feb-2016       -1100387  $-1,100,387.00\n",
-       "74  Mar-2016        -174946    $-174,946.00\n",
-       "75  Apr-2016         757143     $757,143.00\n",
-       "76  May-2016         445709     $445,709.00\n",
-       "77  Jun-2016         712961     $712,961.00\n",
-       "78  Jul-2016       -1163797  $-1,163,797.00\n",
-       "79  Aug-2016         569899     $569,899.00\n",
-       "80  Sep-2016         768450     $768,450.00\n",
-       "81  Oct-2016         102685     $102,685.00\n",
-       "82  Nov-2016         795914     $795,914.00\n",
-       "83  Dec-2016          60988      $60,988.00\n",
-       "84  Jan-2017         138230     $138,230.00\n",
-       "85  Feb-2017         671099     $671,099.00\n",
-       "\n",
-       "[86 rows x 3 columns]"
-      ]
-     },
-     "execution_count": 3,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "in_thousands = budget_data_df[\"Profit/Losses\"]\n",
-    "budget_data_df[\"in Dollars\"] = in_thousands.map('${:,.2f}'.format)\n",
-    "budget_data_df"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 27,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>Months</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>count</th>\n",
-       "      <td>86</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "      Months\n",
-       "count     86"
-      ]
-     },
-     "execution_count": 27,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "total_months = budget_data_df[\"Date\"].describe()\n",
-    "analysis_df = pd.DataFrame(total_months)\n",
-    "rename_months = analysis_df.rename(columns={\"Date\":\"Months\"})\n",
-    "rename_months.head(1)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 32,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "38382578"
-      ]
-     },
-     "execution_count": 32,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "net_total = budget_data_df[\"Profit/Losses\"].sum()\n",
-    "net_total"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 18,
-   "metadata": {
-    "scrolled": true
-   },
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>Profit/Losses</th>\n",
-       "      <th>In Dollars</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>mean</th>\n",
-       "      <td>4.463090e+05</td>\n",
-       "      <td>$446,309.05</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>min</th>\n",
-       "      <td>-1.196225e+06</td>\n",
-       "      <td>$-1,196,225.00</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>max</th>\n",
-       "      <td>1.170593e+06</td>\n",
-       "      <td>$1,170,593.00</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "      Profit/Losses      In Dollars\n",
-       "mean   4.463090e+05     $446,309.05\n",
-       "min   -1.196225e+06  $-1,196,225.00\n",
-       "max    1.170593e+06   $1,170,593.00"
-      ]
-     },
-     "execution_count": 18,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "describe = budget_data_df[\"Profit/Losses\"].describe().loc[['mean','min','max']]\n",
-    "describe_df = pd.DataFrame(describe)\n",
-    "describe_df[\"In Dollars\"] = describe.map('${:,.2f}'.format)\n",
-    "describe_df"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 7,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "446309.0465116279"
-      ]
-     },
-     "execution_count": 7,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "average_changes = budget_data_df[\"Profit/Losses\"].mean()\n",
-    "average_changes"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 8,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "1170593"
-      ]
-     },
-     "execution_count": 8,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "greatest_increase = budget_data_df[\"Profit/Losses\"].max()\n",
-    "greatest_increase\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 11,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>Date</th>\n",
-       "      <th>Profit/Losses</th>\n",
-       "      <th>in Dollars</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>25</th>\n",
-       "      <td>Feb-2012</td>\n",
-       "      <td>1170593</td>\n",
-       "      <td>$1,170,593.00</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "        Date  Profit/Losses     in Dollars\n",
-       "25  Feb-2012        1170593  $1,170,593.00"
-      ]
-     },
-     "execution_count": 11,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "budget_data_df.loc[budget_data_df.loc[:,\"Profit/Losses\"]==1170593,:]"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 12,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/plain": [
-       "-1196225"
-      ]
-     },
-     "execution_count": 12,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "greatest_decrease = budget_data_df[\"Profit/Losses\"].min()\n",
-    "greatest_decrease"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 13,
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>Date</th>\n",
-       "      <th>Profit/Losses</th>\n",
-       "      <th>in Dollars</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>44</th>\n",
-       "      <td>Sep-2013</td>\n",
-       "      <td>-1196225</td>\n",
-       "      <td>$-1,196,225.00</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "        Date  Profit/Losses      in Dollars\n",
-       "44  Sep-2013       -1196225  $-1,196,225.00"
-      ]
-     },
-     "execution_count": 13,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "budget_data_df.loc[budget_data_df.loc[:,\"Profit/Losses\"]==-1196225,:]"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.7.3"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 2
-}
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[2]:
+
+
+import pandas as pd
+import os
+import numpy as np
+
+
+# In[3]:
+
+
+budget_data = "Resources/budget_data.csv"
+budget_data_df = pd.read_csv(budget_data, encoding="ISO-8859-1")
+
+
+# In[4]:
+
+
+in_thousands = budget_data_df["Profit/Losses"]
+budget_data_df["in Dollars"] = in_thousands.map('${:,.2f}'.format)
+budget_data_df.head(20)
+
+
+# In[5]:
+
+
+total_months = budget_data_df["Date"].describe().loc[["count"]]
+analysis_df = pd.DataFrame(total_months)
+rename_months = analysis_df.rename(columns={"Date":"Months"})
+rename_months
+
+
+# In[6]:
+
+
+net_total = budget_data_df["Profit/Losses"].sum()
+print(f'Total Net Profit: $ {net_total}')
+
+
+# In[7]:
+
+
+describe = budget_data_df["Profit/Losses"].describe().loc[['mean','min','max']]
+describe_df = pd.DataFrame(describe)
+describe_df["In Dollars"] = describe.map('${:,.2f}'.format)
+describe_df = describe_df[["In Dollars"]]
+describe_df
+
+
+# In[8]:
+
+
+budget_data_df.loc[budget_data_df.loc[:,"Profit/Losses"]==1170593,:]
+
+
+# In[9]:
+
+
+budget_data_df.loc[budget_data_df.loc[:,"Profit/Losses"]==-1196225,:]
+
+
+# In[10]:
+
+
+max_min_df = pd.DataFrame({"Type":["Max","Min"],"Case":[25,44],
+           "Date":["Feb-2012","Sep-2013"],
+           "In Dolars":["$1,170,593.00","-$1,196,225.00"]})
+max_min_df
+
+
+# In[11]:
+
+
+print("Financial Analysis")
+print("---------------------------")
+output_df = pd.DataFrame({
+    
+"Output" : ["Total Months: 86", 
+    "Total Net Profit: $ 38,382,578.00", 
+    "Average Change: $446,309.05", 
+    "Greatest Increase: Feb-2012 $1,170,593.00", 
+    "Greatest Decrease: Sep-2013 -$1,196,225.00"]
+})
+
+print(output_df)
+
+
+# In[12]:
+
+
+output_df.to_csv("main_bank_output.csv", index=False, header=True)
+
+
+# In[ ]:
+
+
+
+

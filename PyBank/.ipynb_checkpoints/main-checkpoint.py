@@ -826,6 +826,75 @@
   },
   {
    "cell_type": "code",
+   "execution_count": 36,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Type</th>\n",
+       "      <th>Case</th>\n",
+       "      <th>Date</th>\n",
+       "      <th>In Dolars</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Max</td>\n",
+       "      <td>25</td>\n",
+       "      <td>Feb-2012</td>\n",
+       "      <td>$1,170,593.00</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Min</td>\n",
+       "      <td>44</td>\n",
+       "      <td>Sep-2013</td>\n",
+       "      <td>-$1,196,225.00</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  Type  Case      Date       In Dolars\n",
+       "0  Max    25  Feb-2012   $1,170,593.00\n",
+       "1  Min    44  Sep-2013  -$1,196,225.00"
+      ]
+     },
+     "execution_count": 36,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "max_min_df = pd.DataFrame({\"Type\":[\"Max\",\"Min\"],\"Case\":[25,44],\n",
+    "           \"Date\":[\"Feb-2012\",\"Sep-2013\"],\n",
+    "           \"In Dolars\":[\"$1,170,593.00\",\"-$1,196,225.00\"]})\n",
+    "max_min_df"
+   ]
+  },
+  {
+   "cell_type": "code",
    "execution_count": null,
    "metadata": {},
    "outputs": [],

@@ -39,25 +39,25 @@ Both of these challenges encompasses a real-world situation where your newfound 
 
   # * The greatest decrease in losses (date and amount) over the entire period
 
-* As an example, your analysis should look similar to the one below:
+# * As an example, your analysis should look similar to the one below:
 
-  ```text
-  Financial Analysis
-  ----------------------------
-  Total Months: 86
-  Total: $38382578
-  Average  Change: $-2315.12
-  Greatest Increase in Profits: Feb-2012 ($1926159)
-  Greatest Decrease in Profits: Sep-2013 ($-2196167)
+  # ```text
+  # Financial Analysis
+ #  ----------------------------
+ # Total Months: 86
+ # Total: $38382578
+  # Average  Change: $-2315.12
+  # Greatest Increase in Profits: Feb-2012 ($1926159)
+ # Greatest Decrease in Profits: Sep-2013 ($-2196167)
   ```
 
-* In addition, your final script should both print the analysis to the terminal and export a text file with the results.
+# * In addition, your final script should both print ### the analysis to the terminal and export a text # file with the results.
 
 ## PyPoll
 
 ![Vote-Counting](Images/Vote_counting.png)
 
-* In this challenge, you are tasked with helping a small, rural town modernize its vote-counting process. (Up until now, Uncle Cleetus had been trustfully tallying them one-by-one, but unfortunately, his concentration isn't what it used to be.)
+# * In this challenge, you are tasked with helping a small, rural town modernize its vote-counting process. (Up until now, Uncle Cleetus had been trustfully tallying them one-by-one, but unfortunately, his concentration isn't what it used to be.)
 
 * You will be give a set of poll data called [election_data.csv](PyPoll/Resources/election_data.csv). The dataset is composed of three columns: `Voter ID`, `County`, and `Candidate`. Your task is to create a Python script that analyzes the votes and calculates each of the following:
 
